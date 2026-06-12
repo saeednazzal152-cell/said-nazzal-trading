@@ -44,12 +44,12 @@ export default function AdminProductsPage() {
     const ext = file.name.split(".").pop();
     const fileName = `${Date.now()}.${ext}`;
     const { error } = await supabase.storage
-      .from("products")
+      .from("Products")
       .upload(fileName, file, { upsert: true, contentType: file.type });
     if (error) {
       alert("Upload failed: " + error.message);
     } else {
-      const { data } = supabase.storage.from("products").getPublicUrl(fileName);
+      const { data } = supabase.storage.from("Products").getPublicUrl(fileName);
       setForm((f) => ({ ...f, image_url: data.publicUrl }));
     }
     setUploading(false);
