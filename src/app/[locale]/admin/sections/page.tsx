@@ -20,10 +20,25 @@ export default function AdminSectionsPage() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
   const [authed, setAuthed] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const ext = file.name.split(".").pop();
+    const fileName = `sections/${Date.now()}.${ext}`;
+    const { error } = await supabase.storage.from("products").upload(fileName, file, { upsert: true });
+    if (!error) {
+      const { data } = supabase.storage.from("products").getPublicUrl(fileName);
+      setForm((f) => ({ ...f, image_url: data.publicUrl }));
+    }
+    setUploading(false);
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -155,8 +170,15 @@ export default function AdminSectionsPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-gray-500 mb-1 block">{isAr ? "رابط الصورة" : "Image URL"}</label>
-                    <input type="url" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none" style={{ borderColor: "#C9A84C66" }} placeholder="https://..." dir="ltr" />
+                    <label className="text-xs text-gray-500 mb-1 block">{isAr ? "الصورة" : "Image"}</label>
+                    <label className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg border-2 border-dashed cursor-pointer text-sm font-medium" style={{ borderColor: "#C9A84C66", color: "#C9A84C" }}>
+                      {uploading ? (isAr ? "جاري الرفع..." : "Uploading...") : (isAr ? "📁 اختر صورة" : "📁 Choose Image")}
+                      <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
+                    </label>
+                    {form.image_url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={form.image_url} alt="preview" className="h-16 w-16 object-cover rounded-lg border mt-2" />
+                    )}
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 mb-1 block">{isAr ? "الترتيب" : "Order"}</label>

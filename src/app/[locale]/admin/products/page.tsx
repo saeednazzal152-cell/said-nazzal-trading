@@ -30,11 +30,26 @@ export default function AdminProductsPage() {
   const [editing, setEditing] = useState<Product | null>(null);
   const [form, setForm] = useState(EMPTY_PRODUCT);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const ext = file.name.split(".").pop();
+    const fileName = `${Date.now()}.${ext}`;
+    const { error } = await supabase.storage.from("products").upload(fileName, file, { upsert: true });
+    if (!error) {
+      const { data } = supabase.storage.from("products").getPublicUrl(fileName);
+      setForm((f) => ({ ...f, image_url: data.publicUrl }));
+    }
+    setUploading(false);
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -295,16 +310,28 @@ export default function AdminProductsPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 mb-1 block">{isAr ? "رابط الصورة" : "Image URL"}</label>
-                  <input
-                    type="url"
-                    value={form.image_url}
-                    onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                    className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none"
-                    style={{ borderColor: "#C9A84C66" }}
-                    placeholder="https://..."
-                    dir="ltr"
-                  />
+                  <label className="text-xs text-gray-500 mb-1 block">{isAr ? "الصورة" : "Image"}</label>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg border-2 border-dashed cursor-pointer text-sm font-medium transition-colors"
+                      style={{ borderColor: "#C9A84C66", color: "#C9A84C" }}
+                    >
+                      {uploading
+                        ? (isAr ? "جاري الرفع..." : "Uploading...")
+                        : (isAr ? "📁 اختر صورة" : "📁 Choose Image")}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleImageUpload}
+                        disabled={uploading}
+                      />
+                    </label>
+                    {form.image_url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={form.image_url} alt="preview" className="h-20 w-20 object-cover rounded-lg border" />
+                    )}
+                  </div>
                 </div>
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input
