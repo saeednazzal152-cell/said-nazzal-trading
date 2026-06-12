@@ -1,0 +1,70 @@
+import { type Product } from "@/lib/supabase";
+import Image from "next/image";
+import { Package } from "lucide-react";
+
+type Props = {
+  product: Product;
+  locale: "ar" | "en";
+};
+
+export default function ProductCard({ product, locale }: Props) {
+  const isAr = locale === "ar";
+  const name = isAr ? product.name_ar : product.name_en;
+  const description = isAr ? product.description_ar : product.description_en;
+
+  return (
+    <div
+      className="bg-white rounded-xl shadow-md overflow-hidden border transition-transform hover:-translate-y-1 hover:shadow-xl"
+      style={{ borderColor: "#C9A84C33" }}
+      dir={isAr ? "rtl" : "ltr"}
+    >
+      {/* Image */}
+      <div
+        className="relative h-48 w-full flex items-center justify-center"
+        style={{ backgroundColor: "#F8F4EC" }}
+      >
+        {product.image_url ? (
+          <Image
+            src={product.image_url}
+            alt={name}
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <Package size={48} style={{ color: "#C9A84C" }} />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        <h3
+          className="font-bold text-base mb-1 line-clamp-2"
+          style={{ color: "#0D1F3C" }}
+        >
+          {name}
+        </h3>
+        {description && (
+          <p className="text-sm text-gray-500 mb-3 line-clamp-2">{description}</p>
+        )}
+
+        <div className="flex items-center justify-between mt-2">
+          <span className="font-bold text-lg" style={{ color: "#C9A84C" }}>
+            {product.price} {isAr ? "د.أ" : "JD"}
+          </span>
+          <span
+            className="text-xs px-2 py-1 rounded-full font-medium"
+            style={
+              product.stock > 0
+                ? { backgroundColor: "#E8F5E9", color: "#2E7D32" }
+                : { backgroundColor: "#FFEBEE", color: "#C62828" }
+            }
+          >
+            {product.stock > 0
+              ? isAr ? `متوفر (${product.stock})` : `In Stock (${product.stock})`
+              : isAr ? "غير متوفر" : "Out of Stock"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
