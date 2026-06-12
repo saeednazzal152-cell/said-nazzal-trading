@@ -29,7 +29,7 @@ export default async function AdminPage({
             {isAr ? "لوحة التحكم" : "Admin Panel"}
           </h1>
           <p className="text-gray-500 text-sm mt-1">
-            {isAr ? "سعيد نزال للتجارة" : "Said Nazzal Trading"}
+            {isAr ? "سعيد نزال التجارية" : "Said Nazzal Trading"}
           </p>
         </div>
 

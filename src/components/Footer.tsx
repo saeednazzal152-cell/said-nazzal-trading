@@ -14,7 +14,7 @@ export default function Footer({ locale }: { locale: Locale }) {
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <h3 className="font-bold text-lg mb-3" style={{ color: "#C9A84C" }}>
-            {isAr ? "سعيد نزال للتجارة" : "Said Nazzal Trading"}
+            {isAr ? "سعيد نزال التجارية" : "Said Nazzal Trading"}
           </h3>
           <p className="text-white/70 text-sm leading-relaxed">
             {isAr
@@ -31,10 +31,14 @@ export default function Footer({ locale }: { locale: Locale }) {
               <MapPin size={14} style={{ color: "#C9A84C" }} />
               <span>{isAr ? "الأردن" : "Jordan"}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <a href="tel:+962788816611" className="flex items-center gap-2 hover:text-white transition-colors">
               <Phone size={14} style={{ color: "#C9A84C" }} />
-              <span dir="ltr">+962 XX XXX XXXX</span>
-            </div>
+              <span dir="ltr">+962 7 8881 6611</span>
+            </a>
+            <a href="tel:+96265356444" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Phone size={14} style={{ color: "#C9A84C" }} />
+              <span dir="ltr">+962 6 535 6444</span>
+            </a>
             <div className="flex items-center gap-2">
               <Mail size={14} style={{ color: "#C9A84C" }} />
               <span>info@saidnazzalest.com</span>
@@ -59,7 +63,7 @@ export default function Footer({ locale }: { locale: Locale }) {
         className="border-t text-center py-4 text-sm text-white/50"
         style={{ borderColor: "#C9A84C33" }}
       >
-        © {year} {isAr ? "سعيد نزال للتجارة. جميع الحقوق محفوظة" : "Said Nazzal Trading. All rights reserved"}
+        © {year} {isAr ? "سعيد نزال التجارية. جميع الحقوق محفوظة" : "Said Nazzal Trading. All rights reserved"}
       </div>
     </footer>
   );

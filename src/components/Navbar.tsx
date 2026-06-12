@@ -69,7 +69,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
             className="font-bold text-sm sm:text-lg text-end"
             style={{ color: "#C9A84C" }}
           >
-            {isAr ? "سعيد نزال للتجارة" : "Said Nazzal Trading"}
+            {isAr ? "سعيد نزال التجارية" : "Said Nazzal Trading"}
           </Link>
         </div>
       </div>
