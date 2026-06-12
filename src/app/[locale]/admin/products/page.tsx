@@ -44,7 +44,9 @@ export default function AdminProductsPage() {
     const ext = file.name.split(".").pop();
     const fileName = `${Date.now()}.${ext}`;
     const { error } = await supabase.storage.from("products").upload(fileName, file, { upsert: true });
-    if (!error) {
+    if (error) {
+      alert("Upload error: " + error.message);
+    } else {
       const { data } = supabase.storage.from("products").getPublicUrl(fileName);
       setForm((f) => ({ ...f, image_url: data.publicUrl }));
     }
