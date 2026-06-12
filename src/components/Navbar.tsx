@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type Locale } from "@/lib/translations";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 export default function Navbar({ locale }: { locale: Locale }) {
@@ -20,19 +20,8 @@ export default function Navbar({ locale }: { locale: Locale }) {
       dir={isAr ? "rtl" : "ltr"}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center gap-2">
-            <ShoppingBag size={28} style={{ color: "#C9A84C" }} />
-            <span
-              className="font-bold text-lg"
-              style={{ color: "#C9A84C" }}
-            >
-              {isAr ? "سعيد نزال للتجارة" : "Said Nazzal Trading"}
-            </span>
-          </Link>
-
-          {/* Desktop links */}
+        <div className="relative flex items-center justify-between h-20">
+          {/* Left: links + language */}
           <div className="hidden md:flex items-center gap-6">
             <Link
               href={`/${locale}`}
@@ -55,13 +44,33 @@ export default function Navbar({ locale }: { locale: Locale }) {
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button (left on mobile) */}
           <button
             className="md:hidden text-white"
             onClick={() => setOpen(!open)}
           >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
+
+          {/* Center: logo */}
+          <Link
+            href={`/${locale}`}
+            className="absolute left-1/2 -translate-x-1/2 flex items-center"
+          >
+            <span className="bg-white rounded-full p-1 flex items-center justify-center shadow-md">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.jpg" alt="Said Nazzal Trading" className="h-12 w-12 object-contain rounded-full" />
+            </span>
+          </Link>
+
+          {/* Right: business name */}
+          <Link
+            href={`/${locale}`}
+            className="font-bold text-sm sm:text-lg text-end"
+            style={{ color: "#C9A84C" }}
+          >
+            {isAr ? "سعيد نزال للتجارة" : "Said Nazzal Trading"}
+          </Link>
         </div>
       </div>
 
