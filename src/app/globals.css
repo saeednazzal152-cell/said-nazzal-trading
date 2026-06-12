@@ -13,3 +13,16 @@ body {
   background: #ffffff;
   color: #0D1F3C;
 }
+
+@keyframes snt-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.snt-marquee {
+  animation: snt-marquee 40s linear infinite;
+}
+
+.snt-marquee:hover {
+  animation-play-state: paused;
+}

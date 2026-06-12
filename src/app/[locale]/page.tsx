@@ -4,6 +4,7 @@ import { type Locale } from "@/lib/translations";
 import { supabase, type Section, type Product } from "@/lib/supabase";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
+import SlideShow from "@/components/SlideShow";
 import { Package, ChevronRight, ChevronLeft } from "lucide-react";
 
 export default async function HomePage({
@@ -15,7 +16,7 @@ export default async function HomePage({
   const safeLocale: Locale = locale === "en" ? "en" : "ar";
   const isAr = safeLocale === "ar";
 
-  const [{ data: sections }, { data: products }] = await Promise.all([
+  const [{ data: sections }, { data: products }, { data: allProducts }] = await Promise.all([
     supabase.from("sections").select("*").order("order", { ascending: true }),
     supabase
       .from("products")
@@ -23,6 +24,11 @@ export default async function HomePage({
       .eq("is_active", true)
       .order("created_at", { ascending: false })
       .limit(8),
+    supabase
+      .from("products")
+      .select("*, sections(*)")
+      .eq("is_active", true)
+      .limit(40),
   ]);
 
   const ChevronIcon = isAr ? ChevronLeft : ChevronRight;
@@ -70,6 +76,11 @@ export default async function HomePage({
           </Link>
         </div>
       </section>
+
+      {/* Auto-scrolling showcase */}
+      {allProducts && allProducts.length > 0 && (
+        <SlideShow products={allProducts as Product[]} locale={safeLocale} />
+      )}
 
       {/* Sections */}
       {sections && sections.length > 0 && (
