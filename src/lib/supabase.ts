@@ -34,6 +34,8 @@ export type Product = {
   description_ar: string | null;
   description_en: string | null;
   price: number;
+  package_price: number | null;
+  package_size: number | null;
   stock: number;
   image_url: string | null;
   is_active: boolean;

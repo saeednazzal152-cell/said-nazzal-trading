@@ -12,6 +12,8 @@ const EMPTY_PRODUCT = {
   description_ar: "",
   description_en: "",
   price: 0,
+  package_price: 0,
+  package_size: 0,
   stock: 0,
   image_url: "",
   is_active: true,
@@ -97,6 +99,8 @@ export default function AdminProductsPage() {
     const payload = {
       ...form,
       price: Number(form.price),
+      package_price: form.package_price ? Number(form.package_price) : null,
+      package_size: form.package_size ? Number(form.package_size) : null,
       stock: Number(form.stock),
       image_url: form.image_url || null,
     };
@@ -126,6 +130,8 @@ export default function AdminProductsPage() {
       description_ar: product.description_ar ?? "",
       description_en: product.description_en ?? "",
       price: product.price,
+      package_price: product.package_price ?? 0,
+      package_size: product.package_size ?? 0,
       stock: product.stock,
       image_url: product.image_url ?? "",
       is_active: product.is_active,
@@ -272,7 +278,7 @@ export default function AdminProductsPage() {
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="text-xs text-gray-500 mb-1 block">{isAr ? "السعر (د.أ)" : "Price (JD)"}</label>
+                    <label className="text-xs text-gray-500 mb-1 block">{isAr ? "سعر القطعة (د.أ)" : "Price per piece (JD)"}</label>
                     <input
                       type="number"
                       min="0"
@@ -312,6 +318,31 @@ export default function AdminProductsPage() {
                         </option>
                       ))}
                     </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-gray-500 mb-1 block">{isAr ? "سعر العبوة (د.أ) — اختياري" : "Package price (JD) — optional"}</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={form.package_price}
+                      onChange={(e) => setForm({ ...form, package_price: Number(e.target.value) })}
+                      className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none"
+                      style={{ borderColor: "#C9A84C66" }}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500 mb-1 block">{isAr ? "عدد القطع في العبوة" : "Pieces per package"}</label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={form.package_size}
+                      onChange={(e) => setForm({ ...form, package_size: Number(e.target.value) })}
+                      className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none"
+                      style={{ borderColor: "#C9A84C66" }}
+                    />
                   </div>
                 </div>
                 <div>

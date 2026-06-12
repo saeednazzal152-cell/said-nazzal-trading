@@ -46,10 +46,28 @@ export default function ProductCard({ product, locale }: Props) {
           <p className="text-sm text-gray-500 mb-3 line-clamp-2">{description}</p>
         )}
 
-        <div className="flex items-center justify-between mt-2">
-          <span className="font-bold text-lg" style={{ color: "#C9A84C" }}>
-            {product.price} {isAr ? "د.أ" : "JD"}
-          </span>
+        {/* Prices */}
+        <div className="flex flex-col gap-1 mt-2 mb-2">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-500">{isAr ? "القطعة" : "Piece"}</span>
+            <span className="font-bold" style={{ color: "#C9A84C" }}>
+              {product.price} {isAr ? "د.أ" : "JD"}
+            </span>
+          </div>
+          {product.package_price ? (
+            <div className="flex items-center justify-between text-sm border-t pt-1" style={{ borderColor: "#C9A84C22" }}>
+              <span className="text-gray-500">
+                {isAr ? "العبوة" : "Package"}
+                {product.package_size ? ` (${product.package_size}${isAr ? " قطعة" : " pcs"})` : ""}
+              </span>
+              <span className="font-bold" style={{ color: "#0D1F3C" }}>
+                {product.package_price} {isAr ? "د.أ" : "JD"}
+              </span>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="flex items-center justify-end mt-1">
           <span
             className="text-xs px-2 py-1 rounded-full font-medium"
             style={
