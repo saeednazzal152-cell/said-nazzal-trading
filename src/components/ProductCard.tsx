@@ -1,5 +1,4 @@
 import { type Product } from "@/lib/supabase";
-import Image from "next/image";
 import { Package } from "lucide-react";
 
 type Props = {
@@ -24,11 +23,11 @@ export default function ProductCard({ product, locale }: Props) {
         style={{ backgroundColor: "#F8F4EC" }}
       >
         {product.image_url ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={product.image_url}
             alt={name}
-            fill
-            className="object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         ) : (
           <Package size={48} style={{ color: "#C9A84C" }} />

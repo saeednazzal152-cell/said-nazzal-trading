@@ -3,7 +3,6 @@ export const dynamic = "force-dynamic";
 import { type Locale } from "@/lib/translations";
 import { supabase, type Section, type Product } from "@/lib/supabase";
 import Link from "next/link";
-import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
 import { Package, ChevronRight, ChevronLeft } from "lucide-react";
 
@@ -87,16 +86,15 @@ export default async function HomePage({
                 style={{ borderColor: "#C9A84C33" }}
               >
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  className="w-16 h-16 rounded-full flex items-center justify-center overflow-hidden"
                   style={{ backgroundColor: "#F8F4EC" }}
                 >
                   {section.image_url ? (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       src={section.image_url}
                       alt={isAr ? section.name_ar : section.name_en}
-                      width={40}
-                      height={40}
-                      className="object-contain"
+                      className="h-full w-full object-cover"
                     />
                   ) : (
                     <Package size={28} style={{ color: "#C9A84C" }} />
