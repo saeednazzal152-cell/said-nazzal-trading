@@ -43,14 +43,17 @@ export default function AdminProductsPage() {
     setUploading(true);
     const ext = file.name.split(".").pop();
     const fileName = `${Date.now()}.${ext}`;
-    const { error } = await supabase.storage.from("products").upload(fileName, file, { upsert: true });
+    const { error } = await supabase.storage
+      .from("products")
+      .upload(fileName, file, { upsert: true, contentType: file.type });
     if (error) {
-      alert("Upload error: " + error.message);
+      alert("Upload failed: " + error.message);
     } else {
       const { data } = supabase.storage.from("products").getPublicUrl(fileName);
       setForm((f) => ({ ...f, image_url: data.publicUrl }));
     }
     setUploading(false);
+    e.target.value = "";
   }
 
   useEffect(() => {
