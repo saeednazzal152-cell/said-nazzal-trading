@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/translations";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default async function LocaleLayout({
   children,
@@ -18,6 +19,7 @@ export default async function LocaleLayout({
         <Navbar locale={safeLocale} />
         <main className="flex-1">{children}</main>
         <Footer locale={safeLocale} />
+        <WhatsAppButton locale={safeLocale} />
       </body>
     </html>
   );
