@@ -1,6 +1,6 @@
 import { type Locale } from "@/lib/translations";
 import Link from "next/link";
-import { Package, LayoutGrid, LogIn } from "lucide-react";
+import { Package, LayoutGrid, LogIn, ClipboardList } from "lucide-react";
 
 export default async function AdminPage({
   params,
@@ -34,6 +34,16 @@ export default async function AdminPage({
         </div>
 
         <div className="grid grid-cols-2 gap-4">
+          <Link
+            href={`/${safeLocale}/admin/orders`}
+            className="flex flex-col items-center gap-3 p-6 rounded-xl border-2 text-center transition-all hover:shadow-lg hover:scale-105 col-span-2"
+            style={{ backgroundColor: "#0D1F3C", borderColor: "#C9A84C44" }}
+          >
+            <ClipboardList size={36} style={{ color: "#C9A84C" }} />
+            <span className="font-semibold text-white">
+              {isAr ? "الطلبات" : "Orders"}
+            </span>
+          </Link>
           <Link
             href={`/${safeLocale}/admin/products`}
             className="flex flex-col items-center gap-3 p-6 rounded-xl border-2 text-center transition-all hover:shadow-lg hover:scale-105"

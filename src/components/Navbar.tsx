@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type Locale } from "@/lib/translations";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/lib/cart";
 
 export default function Navbar({ locale }: { locale: Locale }) {
   const pathname = usePathname();
@@ -12,6 +13,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
   const otherPath = pathname.replace(`/${locale}`, `/${otherLocale}`);
   const [open, setOpen] = useState(false);
   const isAr = locale === "ar";
+  const { totalCount } = useCart();
 
   return (
     <nav
@@ -63,14 +65,31 @@ export default function Navbar({ locale }: { locale: Locale }) {
             </span>
           </Link>
 
-          {/* Right: business name */}
-          <Link
-            href={`/${locale}`}
-            className="font-bold text-sm sm:text-lg text-end"
-            style={{ color: "#C9A84C" }}
-          >
-            {isAr ? "سعيد نزال التجارية" : "Said Nazzal Trading"}
-          </Link>
+          {/* Right: cart + business name */}
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/${locale}/cart`}
+              className="relative text-white hover:text-yellow-400 transition-colors"
+              aria-label="Cart"
+            >
+              <ShoppingCart size={24} />
+              {totalCount > 0 && (
+                <span
+                  className="absolute -top-2 -end-2 text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                  style={{ backgroundColor: "#C9A84C", color: "#0D1F3C" }}
+                >
+                  {totalCount}
+                </span>
+              )}
+            </Link>
+            <Link
+              href={`/${locale}`}
+              className="font-bold text-xs sm:text-lg text-end hidden sm:block"
+              style={{ color: "#C9A84C" }}
+            >
+              {isAr ? "سعيد نزال التجارية" : "Said Nazzal Trading"}
+            </Link>
+          </div>
         </div>
       </div>
 

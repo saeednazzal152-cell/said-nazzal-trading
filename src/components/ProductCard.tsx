@@ -1,5 +1,6 @@
 import { type Product } from "@/lib/supabase";
 import { Package } from "lucide-react";
+import AddToCart from "./AddToCart";
 
 type Props = {
   product: Product;
@@ -81,6 +82,8 @@ export default function ProductCard({ product, locale }: Props) {
               : isAr ? "غير متوفر" : "Out of Stock"}
           </span>
         </div>
+
+        <AddToCart product={product} locale={locale} />
       </div>
     </div>
   );
